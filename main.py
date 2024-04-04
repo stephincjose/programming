@@ -9,10 +9,11 @@ app = Flask(__name__)
 def home():
     return f"Running Flask on Google Colab!"
 
-
-@app.route("/second_page")
+@app.route("/Second")
 def home():
-    return f"This is second page"
+    return f"Second Page"
+
+
 
 app.run()
 
