@@ -7,7 +7,24 @@
 </head>
 <body>
     <div>
-        {{data}}
+        <table>
+            <tr>
+                <th>Time</th>
+            </tr>
+            {% for hour in hourly_data %}
+            <tr>
+                <td>{{ hour.datetime }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+
+
+
+
+
+
     </div>
 </body>
 </html>

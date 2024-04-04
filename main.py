@@ -13,7 +13,16 @@ def index():
     #print(req.content)
     data = json.loads(req.content)
 
-    return render_template('index.html',data=data)
+    hourly_data = []
+
+    for hour in data['days'][0]['hours']:
+        hourly_data.append({
+            'datetime' : hour['datetime']
+        })
+    
+    temperature = data['days'][0]['temp']
+
+    return render_template('index.html',hourly_data=hourly_data)
 
 app.run()
 
