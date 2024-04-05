@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import requests 
 import json
+from pymongo import *
+
 
 app = Flask(__name__)
 
@@ -47,5 +49,6 @@ def index():
 
     return render_template('index.html',hourly_data=hourly_data)
 
-app.run()
+if __name__ == '__main__':
+    app.run(port=5000,debug=True)
 
