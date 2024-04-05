@@ -1,8 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,jsonify
 import requests 
 import json
 from pymongo import *
-
+cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.xpbeg9b.mongodb.net/")
+db = cluster["test"]
+collection = db["test"]
 
 app = Flask(__name__)
 
@@ -44,10 +46,17 @@ def index():
             'source' : hour['source']
 
         })
-    
+    post = hourly_data[-1]
+    collection.insert_one(post)
     temperature = data['days'][0]['temp']
 
     return render_template('index.html',hourly_data=hourly_data)
+
+@app.route('/view-data')
+def view_data():
+    all_data = collection.find()
+    print(all_data)
+    return jsonify(all_data)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
