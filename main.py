@@ -46,17 +46,19 @@ def index():
             'source' : hour['source']
 
         })
-    post = hourly_data[-1]
-    collection.insert_one(post)
-    temperature = data['days'][0]['temp']
+    
+    for x in range(24):
+        post = hourly_data[x]
+        collection.insert_one(post)
+
 
     return render_template('index.html',hourly_data=hourly_data)
 
 @app.route('/view-data')
 def view_data():
     all_data = collection.find()
-    print(all_data)
-    return jsonify(all_data)
+    return render_template('view-data.html', all_data=all_data)
+
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)

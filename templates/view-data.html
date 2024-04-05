@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="'en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            background-color: aquamarine;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <h1>Data fetched from MangoDB</h1>
+                <th>Time</th>
+                <th>Epoch Time</th>
+                <th>Temperature (°C)</th>
+                <th>Feelslike</th>
+                <th>Humidity</th>
+                <th>Dew</th>
+                <th>Precip</th>
+                <th>Precipprob</th>
+                <th>Snow</th>
+                <th>Snowdepth</th>
+                <th>Preciptype</th>
+                <th>Windgust</th>
+                <th>Windspeed</th>
+                <th>Winddir</th>
+                <th>Pressure</th>
+                <th>Visibility</th>
+                <th>cloudcover</th>
+                <th>Solarradiation</th>
+                <th>Solarenergy</th>
+                <th>UVindex</th>
+                <th>Severerisk</th>
+                <th>Conditions</th>
+                <th>Icon</th>
+                <th>Stations</th>
+                <th>Source</th>
+          
+            </tr>
+            {% for hour in all_data %}
+            <tr>
+                <td>{{ hour.datetime }}</td>
+                <td>{{ hour.datetimeEpoch }}</td>
+                <td>{{ hour.temp }}</td>
+                <td>{{ hour.feelslike }}</td>
+                <td>{{ hour.humidity }}</td>
+                <td>{{ hour.dew }}</td>
+                <td>{{ hour.precip }}</td>
+                <td>{{ hour.precipprob }}</td>
+                <td>{{ hour.snowdepth }}</td>
+                <td>{{ hour.preciptype }}</td>
+                <td>{{ hour.windgust }}</td>
+                <td>{{ hour.windspeed }}</td>
+                <td>{{ hour.winddir }}</td>
+                <td>{{ hour.pressure }}</td>
+                <td>{{ hour.visibility }}</td>
+                <td>{{ hour.cloudcover }}</td>
+                <td>{{ hour.solarradiation }}</td>
+                <td>{{ hour.solarenergy }}</td>
+                <td>{{ hour.uvindex }}</td>
+                <td>{{ hour.winddir }}</td>
+                <td>{{ hour.severerisk }}</td>
+                <td>{{ hour.conditions }}</td>
+                <td>{{ hour.icon }}</td>
+                <td>{{ hour.stations }}</td>
+                <td>{{ hour.source }}</td>
+
+
+
+
+
+            </tr>
+            {% endfor %}
+        </table>
+
+
+
+
+
+
+
+
+    </div>
+</body>
+</html>
