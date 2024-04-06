@@ -2,6 +2,8 @@ from flask import Flask, render_template,jsonify
 import requests 
 import json
 from pymongo import *
+from datetime import datetime
+
 cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.xpbeg9b.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
@@ -54,10 +56,8 @@ def index():
 
     return render_template('index.html',hourly_data=hourly_data)
 
+
 @app.route('/view-data')
-
-
-
 def view_data():
 
     pipeline = [
@@ -67,18 +67,47 @@ def view_data():
     duplicate_docs = list(collection.aggregate(pipeline))
     for doc in duplicate_docs:
         delete_result = collection.delete_many({"datetimeEpoch": doc["_id"]})
-
     delete_result = collection.delete_many({"datetimeEpoch": None})
-
-    all_data = collection.find()
-
-
-   
-       
+    all_data = collection.find()     
     return render_template('view-data.html', all_data=all_data)
     
+@app.route('/proccessed-data')
 
 
+def view_data1():
+    all_data = list(collection.find())
+    processed_data = []
+
+    for x in all_data:
+        cloudcover = x.get('cloudcover')
+        processed_data.append({
+            'datetime': x.get('datetime'),
+            'datetimeEpoch': x.get('datetimeEpoch'),
+            'temp': x.get('temp'),
+            'feelslike': x.get('feelslike'),
+            'humidity': x.get('humidity'),
+            'dew': x.get('dew'),
+            'precip': x.get('precip'),
+            'precipprob': x.get('precipprob'),
+            'snow': x.get('snow'),
+            'snowdepth': x.get('snowdepth'),
+            'preciptype': x.get('preciptype'),
+            'windgust': x.get('windgust'),
+            'windspeed': x.get('windspeed'),
+            'winddir': x.get('winddir'),
+            'pressure': x.get('pressure'),
+            'visibility': x.get('visibility'),
+            'cloudcover': x.get('cloudcover'),
+            'solarradiation': x.get('solarradiation'),
+            'solarenergy': x.get('solarenergy'),
+            'uvindex': x.get('uvindex'),
+            'severerisk': x.get('severerisk'),
+            'conditions': x.get('conditions'),
+        })
+
+        
+
+    return render_template('view-data.html', all_data=processed_data)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
