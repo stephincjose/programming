@@ -55,9 +55,29 @@ def index():
     return render_template('index.html',hourly_data=hourly_data)
 
 @app.route('/view-data')
+
+
+
 def view_data():
+
+    pipeline = [
+        {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
+        {"$match": {"count": {"$gt": 1}}}
+    ] 
+    
+    duplicate_docs = list(collection.aggregate(pipeline))
+    
+    for doc in duplicate_docs:
+        delete_result = collection.delete_many({"datetimeEpoch": doc["_id"]})
+
     all_data = collection.find()
+
+
+   
+       
     return render_template('view-data.html', all_data=all_data)
+    
+
 
 
 if __name__ == '__main__':
