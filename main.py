@@ -112,6 +112,13 @@ def view_data1():
             x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d %H:%M:%S')
 
  
+    for x in processed_data:
+        preciptype = x.get('preciptype')
+        print('cc',x.get('preciptype'))
+        if preciptype == ['rain']:
+            x['preciptype'] = 'rain'
+        elif preciptype is None:
+            x['preciptype'] = 'None'
         
 
     return render_template('view-data.html', all_data=processed_data)
