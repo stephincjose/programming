@@ -105,6 +105,13 @@ def view_data1():
             'conditions': x.get('conditions'),
         })
 
+
+    for x in processed_data:
+        if x.get('datetimeEpoch'):
+            epoch_time = datetime.fromtimestamp(x.get('datetimeEpoch'))
+            x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d %H:%M:%S')
+
+ 
         
 
     return render_template('view-data.html', all_data=processed_data)
