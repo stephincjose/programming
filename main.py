@@ -71,7 +71,7 @@ def view_data():
     all_data = collection.find()     
     return render_template('view-data.html', all_data=all_data)
     
-@app.route('/proccessed-data')
+@app.route('/proccessed-data1')
 
 
 def view_data1():
@@ -114,14 +114,13 @@ def view_data1():
  
     for x in processed_data:
         preciptype = x.get('preciptype')
-        print('cc',x.get('preciptype'))
         if preciptype == ['rain']:
             x['preciptype'] = 'rain'
         elif preciptype is None:
             x['preciptype'] = 'None'
         
+    return render_template('proccessed-data.html', all_data=processed_data)
 
-    return render_template('view-data.html', all_data=processed_data)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)

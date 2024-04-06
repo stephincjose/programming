@@ -6,7 +6,7 @@
     <title>Document</title>
     <style>
         *{
-            background-color: rgb(127, 159, 255);
+            background-color: rgb(220, 236, 100);
         }
 
 
@@ -32,9 +32,9 @@
     <div>
         <table>
             <tr>
-                <h1>Data fetched from MangoDB</h1>
+                <h1>processced</h1>
+                <th>Epoch-Time</th>
                 <th>Time</th>
-                <th>Epoch Time</th>
                 <th>Temperature (°C)</th>
                 <th>Feelslike</th>
                 <th>Humidity</th>
@@ -60,8 +60,8 @@
             </tr>
             {% for hour in all_data %}
             <tr>
-                <td>{{ hour.datetime }}</td>
                 <td>{{ hour.datetimeEpoch }}</td>
+                <td>{{ hour.datetime }}</td>
                 <td>{{ hour.temp }}</td>
                 <td>{{ hour.feelslike }}</td>
                 <td>{{ hour.humidity }}</td>
