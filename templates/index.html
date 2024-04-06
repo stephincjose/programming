@@ -48,7 +48,9 @@
                 <th>UVindex</th>
                 <th>Severerisk</th>
                 <th>Conditions</th>
-
+                <th>Icon</th>
+                <th>Stations</th>
+                <th>Source</th>
           
             </tr>
             {% for hour in hourly_data %}
@@ -61,6 +63,7 @@
                 <td>{{ hour.dew }}</td>
                 <td>{{ hour.precip }}</td>
                 <td>{{ hour.precipprob }}</td>
+                <td>{{ hour.snow }}</td>
                 <td>{{ hour.snowdepth }}</td>
                 <td>{{ hour.preciptype }}</td>
                 <td>{{ hour.windgust }}</td>
@@ -72,10 +75,11 @@
                 <td>{{ hour.solarradiation }}</td>
                 <td>{{ hour.solarenergy }}</td>
                 <td>{{ hour.uvindex }}</td>
-                <td>{{ hour.winddir }}</td>
                 <td>{{ hour.severerisk }}</td>
                 <td>{{ hour.conditions }}</td>
-
+                <td>{{ hour.icon }}</td>
+                <td>{{ hour.stations }}</td>
+                <td>{{ hour.source }}</td>
 
 
 

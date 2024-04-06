@@ -41,8 +41,9 @@ def index():
             'uvindex' : hour['uvindex'],
             'severerisk' : hour['severerisk'],
             'conditions' : hour['conditions'],
-
-
+            'icon' : hour['icon'],
+            'stations' : hour['stations'],
+            'source' : hour['source']
 
         })
     
