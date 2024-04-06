@@ -64,11 +64,11 @@ def view_data():
         {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
         {"$match": {"count": {"$gt": 1}}}
     ] 
-    
     duplicate_docs = list(collection.aggregate(pipeline))
-    
     for doc in duplicate_docs:
         delete_result = collection.delete_many({"datetimeEpoch": doc["_id"]})
+
+    delete_result = collection.delete_many({"datetimeEpoch": None})
 
     all_data = collection.find()
 
