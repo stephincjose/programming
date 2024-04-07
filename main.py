@@ -12,92 +12,99 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def index():
-    #req = requests.get('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/dublin?unitGroup=metric&key=TA8XSWUVK2M3S7GXQHHJ3349L&contentType=json')
-    ##print(req.content)
-    #data = json.loads(req.content)
+    req = requests.get('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/dublin?unitGroup=metric&include=days%2Chours%2Calerts%2Ccurrent&key=7NN5BGMSZ9MUZASGBLWYWK7X7&contentType=json')
+    print(req.content)
+    data = json.loads(req.content)
 
-        # hourly_data = []
+    hourly_data = []
 
-        # for hour in data['days'][0]['hours']:
-        #     hourly_data.append({
-        #         'datetime' : hour['datetime'],
-        #         'datetimeEpoch': hour['datetimeEpoch'],
-        #         'temp': hour['temp'],
-        #         'feelslike': hour['feelslike'],
-        #         'humidity' : hour['humidity'],
-        #         'dew': hour['dew'],
-        #         'precip': hour['precip'],
-        #         'precipprob' : hour['precipprob'],
-        #         'snow' :hour['snow'],
-        #         'snowdepth' : hour['snowdepth'],
-        #         'preciptype' : hour['preciptype'],
-        #         'windgust' : hour['windgust'],
-        #         'windspeed' : hour['windspeed'],
-        #         'winddir' : hour['winddir'],
-        #         'pressure' : hour['pressure'],
-        #         'visibility' : hour['visibility'],
-        #         'cloudcover' : hour['cloudcover'],
-        #         'solarradiation' : hour['solarradiation'],
-        #         'solarenergy' : hour['solarenergy'],
-        #         'uvindex' : hour['uvindex'],
-        #         'severerisk' : hour['severerisk'],
-        #         'conditions' : hour['conditions'],
-        #         'icon' : hour['icon'],
-        #         'stations' : hour['stations'],
-        #         'source' : hour['source']
+    for hour in data['days'][0]['hours']:
+            hourly_data.append({
+                'datetime' : hour['datetime'],
+                'datetimeEpoch': hour['datetimeEpoch'],
+                'temp': hour['temp'],
+                'feelslike': hour['feelslike'],
+                'humidity' : hour['humidity'],
+                'dew': hour['dew'],
+                'precip': hour['precip'],
+                'precipprob' : hour['precipprob'],
+                'snow' :hour['snow'],
+                'snowdepth' : hour['snowdepth'],
+                'preciptype' : hour['preciptype'],
+                'windgust' : hour['windgust'],
+                'windspeed' : hour['windspeed'],
+                'winddir' : hour['winddir'],
+                'pressure' : hour['pressure'],
+                'visibility' : hour['visibility'],
+                'cloudcover' : hour['cloudcover'],
+                'solarradiation' : hour['solarradiation'],
+                'solarenergy' : hour['solarenergy'],
+                'uvindex' : hour['uvindex'],
+                'severerisk' : hour['severerisk'],
+                'conditions' : hour['conditions'],
+                'icon' : hour['icon'],
+                'stations' : hour['stations'],
+                'source' : hour['source']
 
-        #     })
+            })
 
-    try:
-        with open('json_monthly_02.txt', 'r') as file:
-            data = json.load(file)
+    # try:
+    #     with open('json_monthly_02.txt', 'r') as file:
+    #         data = json.load(file)
 
-        x= len(data['days'])    
-        #print(x)
+    #     x= len(data['days'])    
+    #     #print(x)
 
-        for days in range(x-1):
-            hourly_data = []
+    #     for days in range(x-1):
+    #         hourly_data = []
 
-            for hour in data['days'][days]['hours']:
-                hourly_data.append({
-                    'datetime' : hour['datetime'],
-                    'datetimeEpoch': hour['datetimeEpoch'],
-                    'temp': hour['temp'],
-                    'feelslike': hour['feelslike'],
-                    'humidity' : hour['humidity'],
-                    'dew': hour['dew'],
-                    'precip': hour['precip'],
-                    'precipprob' : hour['precipprob'],
-                    'snow' :hour['snow'],
-                    'snowdepth' : hour['snowdepth'],
-                    'preciptype' : hour['preciptype'],
-                    'windgust' : hour['windgust'],
-                    'windspeed' : hour['windspeed'],
-                    'winddir' : hour['winddir'],
-                    'pressure' : hour['pressure'],
-                    'visibility' : hour['visibility'],
-                    'cloudcover' : hour['cloudcover'],
-                    'solarradiation' : hour['solarradiation'],
-                    'solarenergy' : hour['solarenergy'],
-                    'uvindex' : hour['uvindex'],
-                    'severerisk' : hour['severerisk'],
-                    'conditions' : hour['conditions'],
-                    'icon' : hour['icon'],
-                    'stations' : hour['stations'],
-                    'source' : hour['source'] })
-            try:    
-                for l in range(24):
-                    post = hourly_data[l]
-                    collection.insert_one(post)
-                    print('inserted',post)
-            except:
-                print('error')
-    except:
-        print('error')  
+    #         for hour in data['days'][days]['hours']:
+    #             hourly_data.append({
+    #                 'datetime' : hour['datetime'],
+    #                 'datetimeEpoch': hour['datetimeEpoch'],
+    #                 'temp': hour['temp'],
+    #                 'feelslike': hour['feelslike'],
+    #                 'humidity' : hour['humidity'],
+    #                 'dew': hour['dew'],
+    #                 'precip': hour['precip'],
+    #                 'precipprob' : hour['precipprob'],
+    #                 'snow' :hour['snow'],
+    #                 'snowdepth' : hour['snowdepth'],
+    #                 'preciptype' : hour['preciptype'],
+    #                 'windgust' : hour['windgust'],
+    #                 'windspeed' : hour['windspeed'],
+    #                 'winddir' : hour['winddir'],
+    #                 'pressure' : hour['pressure'],
+    #                 'visibility' : hour['visibility'],
+    #                 'cloudcover' : hour['cloudcover'],
+    #                 'solarradiation' : hour['solarradiation'],
+    #                 'solarenergy' : hour['solarenergy'],
+    #                 'uvindex' : hour['uvindex'],
+    #                 'severerisk' : hour['severerisk'],
+    #                 'conditions' : hour['conditions'],
+    #                 'icon' : hour['icon'],
+    #                 'stations' : hour['stations'],
+    #                 'source' : hour['source'] })
+    #         try:    
+    #             for l in range(24):
+    #                 post = hourly_data[l]
+    #                 collection.insert_one(post)
+    #                 print('inserted',post)
+    #         except:
+    #             print('error')
+    # except:
+    #     print('error')  
 
     #xm = {'datetime': '11:00:00', 'datetimeEpoch': 1713002401, 'temp': 10.1, 'feelslike': 10.1, 'humidity': 71.43, 'dew': 5.1, 'precip': 0.0, 'precipprob': 12.9, 'snow': 0.0, 'snowdepth': 0.0, 'preciptype': None, 'windgust': 51.1, 'windspeed': 24.1, 'winddir': 243.9, 'pressure': 1018.7, 'visibility': 24.0, 'cloudcover': 69.1, 'solarradiation': 307.7, 'solarenergy': 1.1, 'uvindex': 3.0, 'severerisk': 10.0, 'conditions': 'Partially cloudy', 'icon': 'partly-cloudy-day', 'stations': None, 'source': 'fcst'}
     #collection.insert_one(xm)
-    return render_template('index.html', hourly_data= hourly_data)
+
+
+    # for l in range(24):
+    #                 post = hourly_data[l]
+    #                 collection.insert_one(post)
+    #                 #print('inserted',post)
+                    
+    return render_template('index.html', hourly_data= hourly_data ,data=data)
 
 
 
