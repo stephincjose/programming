@@ -99,12 +99,12 @@ def index():
     #collection.insert_one(xm)
 
 
-    # for l in range(24):
-    #                 post = hourly_data[l]
-    #                 collection.insert_one(post)
-    #                 #print('inserted',post)
+    for l in range(24):
+                    post = hourly_data[l]
+                    collection.insert_one(post)
+                    #print('inserted',post)
                     
-    return render_template('index.html', hourly_data= hourly_data ,data=data)
+    return render_template('index.html', hourly_data= hourly_data, post=post ,data=data)
 
 
 
