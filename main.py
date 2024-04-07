@@ -13,11 +13,10 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def index():
     #req = requests.get('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/dublin?unitGroup=metric&key=TA8XSWUVK2M3S7GXQHHJ3349L&contentType=json')
-    ##req = requests.get('https://cat-fact.herokuapp.com/facts')
     ##print(req.content)
     #data = json.loads(req.content)
     try:
-        with open('json_monthly.txt', 'r') as file:
+        with open('json_monthly_02.txt', 'r') as file:
             data = json.load(file)
 
         # hourly_data = []
