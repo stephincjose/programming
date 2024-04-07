@@ -4,7 +4,7 @@ import json
 from pymongo import *
 from datetime import datetime
 
-cluster = MongoClient("")
+cluster = MongoClient("mongodb+srv://stephinjosec:universal123@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
 
@@ -15,9 +15,6 @@ def index():
     #req = requests.get('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/dublin?unitGroup=metric&key=TA8XSWUVK2M3S7GXQHHJ3349L&contentType=json')
     ##print(req.content)
     #data = json.loads(req.content)
-    try:
-        with open('json_monthly_02.txt', 'r') as file:
-            data = json.load(file)
 
         # hourly_data = []
 
@@ -51,9 +48,11 @@ def index():
 
         #     })
 
+    try:
+        with open('json_monthly_02.txt', 'r') as file:
+            data = json.load(file)
 
-        x= len(data['days'])
-        
+        x= len(data['days'])    
         #print(x)
 
         for days in range(x-1):
@@ -90,40 +89,43 @@ def index():
                 for l in range(24):
                     post = hourly_data[l]
                     collection.insert_one(post)
-                    #print('inserted',post)
+                    print('inserted',post)
             except:
                 print('error')
     except:
-        print('error')        
+        print('error')  
 
+    #xm = {'datetime': '11:00:00', 'datetimeEpoch': 1713002401, 'temp': 10.1, 'feelslike': 10.1, 'humidity': 71.43, 'dew': 5.1, 'precip': 0.0, 'precipprob': 12.9, 'snow': 0.0, 'snowdepth': 0.0, 'preciptype': None, 'windgust': 51.1, 'windspeed': 24.1, 'winddir': 243.9, 'pressure': 1018.7, 'visibility': 24.0, 'cloudcover': 69.1, 'solarradiation': 307.7, 'solarenergy': 1.1, 'uvindex': 3.0, 'severerisk': 10.0, 'conditions': 'Partially cloudy', 'icon': 'partly-cloudy-day', 'stations': None, 'source': 'fcst'}
+    #collection.insert_one(xm)
     return render_template('index.html', hourly_data= hourly_data)
 
+
+
+
+
 @app.route('/view-data')
-
-
 def view_data():
-
     pipeline = [
         {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
         {"$match": {"count": {"$gt": 1}}}
     ] 
     duplicate_docs = list(collection.aggregate(pipeline))
-    for doc in duplicate_docs:
-        print(doc)
-        count= doc["count"]
-        for c in range(count-2):
-            collection.delete_many({"datetimeEpoch": doc["_id"]})
-            # print('dfdf',c)
 
+    for doc in duplicate_docs:
+        count= doc["count"]
+        count_index = count
+        if count > 1:
+            while count_index > 1:
+                #print('true')
+                collection.delete_one({"datetimeEpoch": doc["_id"]})
+                count_index =count_index-1
+                print(count_index)
 
     all_data = collection.find()     
-    return render_template('view-data.html', all_data=all_data)
-
+    return render_template('view-data.html', all_data=all_data,duplicate_docs= duplicate_docs )
 
 
 @app.route('/proccessed-data1')
-
-
 def view_data1():
     all_data = list(collection.find())
     processed_data = []
