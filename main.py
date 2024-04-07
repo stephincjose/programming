@@ -97,12 +97,7 @@ def index():
     except:
         print('error')        
 
-    xn = {'datetime': '11:00:00', 'datetimeEpoch': 1713002401, 'temp': 10.1, 'feelslike': 10.1, 'humidity': 71.43, 'dew': 5.1, 'precip': 0.0, 'precipprob': 12.9, 'snow': 0.0, 'snowdepth': 0.0, 'preciptype': None, 'windgust': 51.1, 'windspeed': 24.1, 'winddir': 243.9, 'pressure': 1018.7, 'visibility': 24.0, 'cloudcover': 69.1, 'solarradiation': 307.7, 'solarenergy': 1.1, 'uvindex': 3.0, 'severerisk': 10.0, 'conditions': 'Partially cloudy', 'icon': 'partly-cloudy-day', 'stations': None, 'source': 'fcst'}
-    collection.insert_one(xn)
-
     return render_template('index.html', hourly_data= hourly_data)
-
-    
 
 @app.route('/view-data')
 
@@ -119,10 +114,7 @@ def view_data():
         count= doc["count"]
         for c in range(count-2):
             collection.delete_many({"datetimeEpoch": doc["_id"]})
-            print('dfdf',c)
-
-    #     delete_result = collection.delete_many({"datetimeEpoch": doc["_id"]})
-    # delete_result = collection.delete_many({"datetimeEpoch": None})
+            # print('dfdf',c)
 
 
     all_data = collection.find()     
