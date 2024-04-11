@@ -86,12 +86,6 @@ def index():
             Uvindex_h.append(hour['uvindex'])
             Severerisk_h.append(hour['severerisk'])
 
-
-
-
-    
-
-
     def findminmaxmean(parameter_name, parameters):
         parameters_max = np.max(parameters)
         print(f'Max {parameter_name}:', parameters_max)
@@ -100,22 +94,40 @@ def index():
         parameters_mean = np.mean(parameters)
         rounded_parameters_mean = round(parameters_mean, 2)
         print(f'Mean {parameter_name}:', rounded_parameters_mean)
+        return parameters_max, parameters_min, rounded_parameters_mean
+
+    Temperature_max, Temperature_min, Temperature_mean = findminmaxmean('Temperature_h', Temperature_h)
+    Feelslike_max, Feelslike_min, Feelslike_mean = findminmaxmean('Feelslike', Feelslike_h)
+
+    print(f"Temperature Max: {Temperature_max}, Min: {Temperature_min}, Mean: {Temperature_mean}")
+    print(f"Feelslike Max: {Feelslike_max}, Min: {Feelslike_min}, Mean: {Feelslike_mean}")
 
     def findmean(parameter_name, parameters):
         parameters_mean = np.mean(parameters)
         rounded_parameters_mean = round(parameters_mean, 2)
         print(f'Mean {parameter_name}:', rounded_parameters_mean)
+        return rounded_parameters_mean
     
-    findminmaxmean('Temperature_h', Temperature_h)
-    findminmaxmean('Feelslike', Feelslike_h)
+  
+    
+    mean_Humidity=findmean('Humidity', Humidity_h) 
+    mean_Dew_Dew=findmean('Dew', Dew_h)
+    mean_Precip=findmean('Precip', Precip_h)
+    mean_Snow=findmean('Snow', Snow_h)
+    mean_Snowdepth=findmean('Snowdepth', Snowdepth_h)
+    mean_Windgust=findmean('Windgust', Windgust_h)
+    mean_Windspeed=findmean('Windspeed', Windspeed_h)
+    mean_Winddir=findmean('Winddir', Winddir_h)
+    mean_Pressure=findmean('Pressure', Pressure_h)
+    mean_Visibility=findmean('Visibility', Visibility_h)
+    mean_Cloudcover=findmean('Cloudcover', Cloudcover_h)
+    mean_Solarradiation=findmean('Solarradiation', Solarradiation_h)
+    mean_Solarenergy=findmean('Solarenergy', Solarenergy_h)
+    mean_Uvindex=findmean('Uvindex', Uvindex_h)
+    mean_Severerisk=findmean('Severerisk', Severerisk_h)
 
-    findmean('Humidity', Humidity_h)
-                    
-         
-
-
-
-
+    daily_parameters=[Temperature_max, Temperature_min, Temperature_mean,Feelslike_max, Feelslike_min, Feelslike_mean , mean_Humidity,mean_Dew_Dew,mean_Precip,mean_Snow,mean_Snowdepth,mean_Windgust,mean_Windspeed,mean_Winddir,mean_Pressure,mean_Visibility,mean_Cloudcover,mean_Solarradiation,mean_Solarenergy,mean_Uvindex,mean_Severerisk]
+    print(daily_parameters)
 
     datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
     timezone_offset = datetime.timedelta(hours=1)  
