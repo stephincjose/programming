@@ -21,7 +21,23 @@ def index():
 
     hourly_data = []
     Temperature_h=[]
-    Feelslike=[]
+    Feelslike_h=[]
+    Humidity_h=[]
+    Dew_h=[]
+    Precip_h=[]
+    Snow_h=[]
+    Snowdepth_h=[]
+    Windgust_h=[]
+    Windspeed_h=[]
+    Winddir_h=[]
+    Pressure_h=[]
+    Visibility_h=[]
+    Cloudcover_h=[]
+    Solarradiation_h=[]
+    Solarenergy_h=[]
+    Uvindex_h=[]
+    Severerisk_h=[]
+    
 
     for hour in data['days'][0]['hours']:
             hourly_data.append({
@@ -52,28 +68,48 @@ def index():
                 'source' : hour['source']
             })
             Temperature_h.append(hour['temp'])
-            Feelslike.append(hour['feelslike'])
+            Feelslike_h.append(hour['feelslike'])
+
+            Humidity_h.append(hour['humidity'])
+            Dew_h.append(hour['dew'])
+            Precip_h.append(hour['precip'])
+            Snow_h.append(hour['snow'])
+            Snowdepth_h.append(hour['snowdepth'])
+            Windgust_h.append(hour['windgust'])
+            Windspeed_h.append(hour['windspeed'])
+            Winddir_h.append(hour['winddir'])
+            Pressure_h.append(hour['pressure'])
+            Visibility_h.append(hour['visibility'])
+            Cloudcover_h.append(hour['cloudcover'])
+            Solarradiation_h.append(hour['solarradiation'])
+            Solarenergy_h.append(hour['solarenergy'])
+            Uvindex_h.append(hour['uvindex'])
+            Severerisk_h.append(hour['severerisk'])
+
+
 
 
     
-    tempmax = np.max(Temperature_h)
-    print('max_temperature',tempmax)
-    tempmin = np.min(Temperature_h)
-    print('min_temperature',tempmin)
-    tempmean = np.mean(Temperature_h)
-    rounded_tempmean = round(tempmean,2 )
-    print('mean_temperature:', rounded_tempmean)
 
 
     def findminmaxmean(parameter_name, parameters):
         parameters_max = np.max(parameters)
-        print(f'max {parameter_name}:', parameters_max)
+        print(f'Max {parameter_name}:', parameters_max)
         parameters_min = np.min(parameters)
-        print(f'min {parameter_name}:', parameters_min)
+        print(f'Min {parameter_name}:', parameters_min)
         parameters_mean = np.mean(parameters)
         rounded_parameters_mean = round(parameters_mean, 2)
-        print(f'mean {parameter_name}:', rounded_parameters_mean)
-    findminmaxmean('Feelslike', Feelslike)
+        print(f'Mean {parameter_name}:', rounded_parameters_mean)
+
+    def findmean(parameter_name, parameters):
+        parameters_mean = np.mean(parameters)
+        rounded_parameters_mean = round(parameters_mean, 2)
+        print(f'Mean {parameter_name}:', rounded_parameters_mean)
+    
+    findminmaxmean('Temperature_h', Temperature_h)
+    findminmaxmean('Feelslike', Feelslike_h)
+
+    findmean('Humidity', Humidity_h)
                     
          
 
