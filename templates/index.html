@@ -12,12 +12,21 @@
             background-color: rgb(244, 250, 249)
 
         }
+        .Head {
+            font: Arial, sans-serif;
+         
+            text-align: center;
+
+        }
+
 
 
 
         table {
             border-collapse: collapse;
             width: 100%;
+            border-radius: 8px; 
+            overflow: hidden; 
             
         }
 
@@ -36,24 +45,39 @@
             background-color: #f2f2f2;
         }
 
-
-        .div1 {
+        .div0{
             margin: 50px;
             padding: 20px;
+            
+        }
+
+        .div1 {
+            margin: 10px;
+            padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            height: 500px;
+            height: 600px;
             overflow-x: auto;
+            border-radius: 8px;
+             
+            
         }
         .div2 {
-            max-height: 50px;
+            max-height: 60px;
+            
         }
 
     </style>
 </head>
 <body>
+    <div class="div0">
+        <div class="Head">Real time data from www.visualcrossing.com   {{date}} </div>
+        
     <div class="div1">
+        
     <div class="div2">
+       
        <table class="table table-striped">
+        
             <tr>
                 <th>Time</th>
                 <th>Epoch Time</th>
@@ -124,5 +148,6 @@
 
         </div>    
     </div>
+</div>
 </body>
 </html>

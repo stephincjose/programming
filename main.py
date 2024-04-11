@@ -3,8 +3,9 @@ import requests
 import json
 from pymongo import *
 from datetime import datetime
+import datetime
 
-cluster = MongoClient("mongodb+srv://stephincjose:vALrfi92MCJ3g16I@cluster0.jh2zpzm.mongodb.net/")
+cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
 
@@ -47,6 +48,28 @@ def index():
                 'source' : hour['source']
 
             })
+    
+    datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
+
+    print('toejojoj',datetimeEpoch)
+    print(type(datetimeEpoch))
+
+
+
+
+    timezone_offset = datetime.timedelta(hours=1)  
+    real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
+    date = real_time.strftime('%Y-%m-%d')
+    print("Real Date in GMT+1:", date)
+
+
+
+        
+
+
+
+
+
 
     # try:
     #     with open('json_monthly_02.txt', 'r') as file:
@@ -103,8 +126,9 @@ def index():
                     post = hourly_data[l]
                     collection.insert_one(post)
                     #print('inserted',post)
+
                     
-    return render_template('index.html', hourly_data= hourly_data, post=post ,data=data)
+    return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date )
 
 
 

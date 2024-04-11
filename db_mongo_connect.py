@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 
 
-cluster = MongoClient("mongodb+srv://stephincjose:vALrfi92MCJ3g16I@cluster0.jh2zpzm.mongodb.net/")
+cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 
 
 
