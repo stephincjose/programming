@@ -20,7 +20,7 @@ def index():
     data = json.loads(req.content)
 
     hourly_data = []
-    Temperature=[]
+    Temperature_h=[]
 
     for hour in data['days'][0]['hours']:
             hourly_data.append({
@@ -49,14 +49,20 @@ def index():
                 'icon' : hour['icon'],
                 'stations' : hour['stations'],
                 'source' : hour['source']
-
             })
-            Temperature.append(hour['temp'])
+            Temperature_h.append(hour['temp'])
+
     
-    tempmax = np.max(Temperature)
+    tempmax = np.max(Temperature_h)
     print('max_temperature',tempmax)
-    tempmin = np.min(Temperature)
+    tempmin = np.min(Temperature_h)
     print('min_temperature',tempmin)
+    tempmean = np.mean(Temperature_h)
+    rounded_tempmean = round(tempmean, 2)
+    print('mean_temperature:', rounded_tempmean)
+
+
+
 
 
     datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
@@ -124,6 +130,8 @@ def index():
                     post = hourly_data[l]
                     collection.insert_one(post)
     
+    
+
 
                     #print('inserted',post)
                     
