@@ -4,6 +4,8 @@ import json
 from pymongo import *
 from datetime import datetime
 import datetime
+import pymongo
+import numpy as np
 
 cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
@@ -18,6 +20,7 @@ def index():
     data = json.loads(req.content)
 
     hourly_data = []
+    Temperature=[]
 
     for hour in data['days'][0]['hours']:
             hourly_data.append({
@@ -48,15 +51,15 @@ def index():
                 'source' : hour['source']
 
             })
+            Temperature.append(hour['temp'])
     
+    tempmax = np.max(Temperature)
+    print('max_temperature',tempmax)
+    tempmin = np.min(Temperature)
+    print('min_temperature',tempmin)
+
+
     datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
-
-    print('toejojoj',datetimeEpoch)
-    print(type(datetimeEpoch))
-
-
-
-
     timezone_offset = datetime.timedelta(hours=1)  
     real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
     date = real_time.strftime('%Y-%m-%d')
@@ -65,11 +68,6 @@ def index():
 
 
         
-
-
-
-
-
 
     # try:
     #     with open('json_monthly_02.txt', 'r') as file:
@@ -125,8 +123,9 @@ def index():
     for l in range(24):
                     post = hourly_data[l]
                     collection.insert_one(post)
-                    #print('inserted',post)
+    
 
+                    #print('inserted',post)
                     
     return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date )
 
@@ -158,7 +157,7 @@ def view_data():
 
 @app.route('/processed-data')
 def view_data1():
-    all_data = list(collection.find())
+    all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
     processed_data = []
 
     for x in all_data:
