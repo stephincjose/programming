@@ -21,6 +21,7 @@ def index():
 
     hourly_data = []
     Temperature_h=[]
+    Feelslike=[]
 
     for hour in data['days'][0]['hours']:
             hourly_data.append({
@@ -51,6 +52,8 @@ def index():
                 'source' : hour['source']
             })
             Temperature_h.append(hour['temp'])
+            Feelslike.append(hour['feelslike'])
+
 
     
     tempmax = np.max(Temperature_h)
@@ -58,8 +61,21 @@ def index():
     tempmin = np.min(Temperature_h)
     print('min_temperature',tempmin)
     tempmean = np.mean(Temperature_h)
-    rounded_tempmean = round(tempmean, 2)
+    rounded_tempmean = round(tempmean,2 )
     print('mean_temperature:', rounded_tempmean)
+
+
+    def findminmaxmean(parameter_name, parameters):
+        parameters_max = np.max(parameters)
+        print(f'max {parameter_name}:', parameters_max)
+        parameters_min = np.min(parameters)
+        print(f'min {parameter_name}:', parameters_min)
+        parameters_mean = np.mean(parameters)
+        rounded_parameters_mean = round(parameters_mean, 2)
+        print(f'mean {parameter_name}:', rounded_parameters_mean)
+    findminmaxmean('Feelslike', Feelslike)
+                    
+         
 
 
 
