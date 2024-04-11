@@ -4,7 +4,7 @@ import json
 from pymongo import *
 from datetime import datetime
 
-cluster = MongoClient("mongodb+srv://stephinjosec:universal123@cluster0.jh2zpzm.mongodb.net/")
+cluster = MongoClient("mongodb+srv://stephincjose:vALrfi92MCJ3g16I@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
 
