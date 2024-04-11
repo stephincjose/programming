@@ -156,7 +156,7 @@ def view_data():
     return render_template('view-data.html', all_data=all_data,duplicate_docs= duplicate_docs )
 
 
-@app.route('/proccessed-data1')
+@app.route('/processed-data')
 def view_data1():
     all_data = list(collection.find())
     processed_data = []
@@ -207,6 +207,5 @@ def view_data1():
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
-
 
     
