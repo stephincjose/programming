@@ -191,7 +191,7 @@ def view_data1():
 
     for x in processed_data:
         if x.get('datetimeEpoch'):
-            epoch_time = datetime.fromtimestamp(x.get('datetimeEpoch'))
+            epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))
             x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d %H:%M:%S')
 
  
