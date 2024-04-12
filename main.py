@@ -241,7 +241,7 @@ def view_data3():
             print('sfafds',daily_parameters_dict["_id"])
 
         print('processed out', parameter_dicts)
-        return render_template('processed-data-minmax.html', parameter_dicts=parameter_dicts)
+        return render_template('processed-data-minmax.html',  parameter_dicts=parameter_dicts)
 
 
 @app.route('/view-data')
@@ -268,6 +268,36 @@ def view_data2():
 
 @app.route('/processed-data')
 def view_data1():
+    
+    #from viewdata3():
+    
+    parameter_dicts = []
+    pipeline = [
+        {"$group": {"_id": "$_id", "count": {"$sum": 1}}},
+        {"$match": {"count": {"$gt": 1}}}
+    ] 
+    duplicate_dates = list(collection.aggregate(pipeline))
+
+    for date_doc in duplicate_dates:
+        count = date_doc["count"]
+        date_value = date_doc["_id"]  # Date value
+        date_id = str(date_doc["_id"])  # ObjectId as string
+        print('Count:', count, 'Date:', date_value, 'ObjectId:', date_id)
+
+
+        
+    daily_parameters_list = collection_min_max.find({"date": {"$exists": True}})
+    
+    
+    if daily_parameters_list:
+        for daily_parameters_dict in daily_parameters_list:
+            parameter_dicts.append(daily_parameters_dict)
+            print('sfafds',daily_parameters_dict["_id"])
+
+        print('processed out', parameter_dicts)
+
+    ## end viewdata3()
+
     all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
     processed_data = []
 
@@ -312,7 +342,7 @@ def view_data1():
         elif preciptype is None:
             x['preciptype'] = 'None'
         
-    return render_template('processed-data.html', all_data=processed_data)
+    return render_template('processed-data.html', all_data=processed_data,  parameter_dicts=parameter_dicts)
 
 
 if __name__ == '__main__':
