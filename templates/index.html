@@ -71,6 +71,9 @@
             max-height: 60px;
             
         }
+        .daily_parameters{
+            align-items:end;
+        }
 
     </style>
 </head>
@@ -78,8 +81,12 @@
     <div class="div0">
         <div class="Head">
             <div >
-                Real time data from www.visualcrossing.com{{date}} Location:Dublin
+                Real time data from www.visualcrossing.com {{date}} Location:Dublin
             </div>
+            
+      
+ 
+
             <div >
                 
             </div>
@@ -88,78 +95,102 @@
         
     <div class="div1">
         
-    <div class="div2">
-       
-       <table class="table table-striped">
+        <div class="div2">
         
-            <tr>
-                <th>Time</th>
-                <th>Epoch Time</th>
-                <th>Temperature (°C)</th>
-                <th>Feelslike</th>
-                <th>Humidity</th>
-                <th>Dew</th>
-                <th>Precip</th>
-                <th>Precipprob</th>
-                <th>Snow</th>
-                <th>Snowdepth</th>
-                <th>Preciptype</th>
-                <th>Windgust</th>
-                <th>Windspeed</th>
-                <th>Winddir</th>
-                <th>Pressure</th>
-                <th>Visibility</th>
-                <th>cloudcover</th>
-                <th>Solarradiation</th>
-                <th>Solarenergy</th>
-                <th>UVindex</th>
-                <th>Severerisk</th>
-                <th>Conditions</th>
-                <th>Icon</th>
-                <th>Stations</th>
-                <th>Source</th>
-          
-            </tr>
-            {% for hour in hourly_data %}
-            <tr>
-                <td>{{ hour.datetime }}</td>
-                <td>{{ hour.datetimeEpoch }}</td>
-                <td>{{ hour.temp }}</td>
-                <td>{{ hour.feelslike }}</td>
-                <td>{{ hour.humidity }}</td>
-                <td>{{ hour.dew }}</td>
-                <td>{{ hour.precip }}</td>
-                <td>{{ hour.precipprob }}</td>
-                <td>{{ hour.snow }}</td>
-                <td>{{ hour.snowdepth }}</td>
-                <td>{{ hour.preciptype }}</td>
-                <td>{{ hour.windgust }}</td>
-                <td>{{ hour.windspeed }}</td>
-                <td>{{ hour.winddir }}</td>
-                <td>{{ hour.pressure }}</td>
-                <td>{{ hour.visibility }}</td>
-                <td>{{ hour.cloudcover }}</td>
-                <td>{{ hour.solarradiation }}</td>
-                <td>{{ hour.solarenergy }}</td>
-                <td>{{ hour.uvindex }}</td>
-                <td>{{ hour.severerisk }}</td>
-                <td>{{ hour.conditions }}</td>
-                <td>{{ hour.icon }}</td>
-                <td>{{ hour.stations }}</td>
-                <td>{{ hour.source }}</td>
+            <table class="table table-striped">
+                    
+                    <div class="daily_parameters">
+                    Tempmax{{daily_parameters[0]}}
+                    Tempmin{{daily_parameters[1]}}
+                    Temp{{daily_parameters[2]}}
+                    Feelmax{{daily_parameters[3]}}
+                    Feelmin{{daily_parameters[4]}}
+                    Feellike{{daily_parameters[5]}}
+                    Humidity{{daily_parameters[6]}}
+                    Dew{{daily_parameters[7]}}
+                    Precip{{daily_parameters[8]}}
+                    Snow{{daily_parameters[9]}}
+                    Snowdepth{{daily_parameters[10]}}
+                    Windgust{{daily_parameters[11]}}
+                    Windspeed{{daily_parameters[12]}}
+                    Winddir{{daily_parameters[13]}}
+                    Pressure{{daily_parameters[14]}}
+                    Visibility{{daily_parameters[15]}}
+                    Cloudcover{{daily_parameters[16]}}
+                    Sol.radiation{{daily_parameters[17]}}
+                    Sol.energy{{daily_parameters[18]}}
+                    Uvindex{{daily_parameters[19]}}
+                    Severerisk{{daily_parameters[20]}}
+                    </div>
+                
+                    <tr>
+                        <th>Time</th>
+                        <th>Epoch Time</th>
+                        <th>Temperature (°C)</th>
+                        <th>Feelslike</th>
+                        <th>Humidity</th>
+                        <th>Dew</th>
+                        <th>Precip</th>
+                        <th>Precipprob</th>
+                        <th>Snow</th>
+                        <th>Snowdepth</th>
+                        <th>Preciptype</th>
+                        <th>Windgust</th>
+                        <th>Windspeed</th>
+                        <th>Winddir</th>
+                        <th>Pressure</th>
+                        <th>Visibility</th>
+                        <th>cloudcover</th>
+                        <th>Solarradiation</th>
+                        <th>Solarenergy</th>
+                        <th>UVindex</th>
+                        <th>Severerisk</th>
+                        <th>Conditions</th>
+                        <th>Icon</th>
+                        <th>Stations</th>
+                        <th>Source</th>
+                
+                    </tr>
+                    {% for hour in hourly_data %}
+                    <tr>
+                        <td>{{ hour.datetime }}</td>
+                        <td>{{ hour.datetimeEpoch }}</td>
+                        <td>{{ hour.temp }}</td>
+                        <td>{{ hour.feelslike }}</td>
+                        <td>{{ hour.humidity }}</td>
+                        <td>{{ hour.dew }}</td>
+                        <td>{{ hour.precip }}</td>
+                        <td>{{ hour.precipprob }}</td>
+                        <td>{{ hour.snow }}</td>
+                        <td>{{ hour.snowdepth }}</td>
+                        <td>{{ hour.preciptype }}</td>
+                        <td>{{ hour.windgust }}</td>
+                        <td>{{ hour.windspeed }}</td>
+                        <td>{{ hour.winddir }}</td>
+                        <td>{{ hour.pressure }}</td>
+                        <td>{{ hour.visibility }}</td>
+                        <td>{{ hour.cloudcover }}</td>
+                        <td>{{ hour.solarradiation }}</td>
+                        <td>{{ hour.solarenergy }}</td>
+                        <td>{{ hour.uvindex }}</td>
+                        <td>{{ hour.severerisk }}</td>
+                        <td>{{ hour.conditions }}</td>
+                        <td>{{ hour.icon }}</td>
+                        <td>{{ hour.stations }}</td>
+                        <td>{{ hour.source }}</td>
 
 
 
 
 
-            </tr>
-            {% endfor %}
-        </table> 
+                    </tr>
+                    {% endfor %}
+            </table> 
 
 
 
         </div>
-            
+                
     </div>
     <div>
     <div>

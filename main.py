@@ -126,14 +126,17 @@ def index():
     mean_Uvindex=findmean('Uvindex', Uvindex_h)
     mean_Severerisk=findmean('Severerisk', Severerisk_h)
 
-    daily_parameters=[Temperature_max, Temperature_min, Temperature_mean,Feelslike_max, Feelslike_min, Feelslike_mean , mean_Humidity,mean_Dew_Dew,mean_Precip,mean_Snow,mean_Snowdepth,mean_Windgust,mean_Windspeed,mean_Winddir,mean_Pressure,mean_Visibility,mean_Cloudcover,mean_Solarradiation,mean_Solarenergy,mean_Uvindex,mean_Severerisk]
-    print(daily_parameters)
+   
 
     datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
     timezone_offset = datetime.timedelta(hours=1)  
     real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
     date = real_time.strftime('%Y-%m-%d')
     print("Real Date in GMT+1:", date)
+    
+    daily_parameters=[date, Temperature_max, Temperature_min, Temperature_mean,Feelslike_max, Feelslike_min, Feelslike_mean , mean_Humidity,mean_Dew_Dew,mean_Precip,mean_Snow,mean_Snowdepth,mean_Windgust,mean_Windspeed,mean_Winddir,mean_Pressure,mean_Visibility,mean_Cloudcover,mean_Solarradiation,mean_Solarenergy,mean_Uvindex,mean_Severerisk]
+    daily_parameters_dict={'date':date, 'Temperature_max':Temperature_max, 'Temperature_min':Temperature_min, 'Temperature_mean':Temperature_mean,'Feelslike_max':Feelslike_max, 'Feelslike_min':Feelslike_min, 'Feelslike_mean':Feelslike_mean ,'mean_Humidity': mean_Humidity,'mean_Dew_Dew':mean_Dew_Dew,'mean_Precip':mean_Precip,'mean_Snow':mean_Snow,'mean_Snowdepth':mean_Snowdepth,'mean_Windgust':mean_Windgust,'mean_Windspeed':mean_Windspeed,'mean_Winddir':mean_Winddir,'mean_Pressure':mean_Pressure,'mean_Visibility':mean_Visibility,'mean_Cloudcover':mean_Cloudcover,'mean_Solarradiation':mean_Solarradiation,'mean_Solarenergy':mean_Solarenergy,'mean_Uvindex':mean_Uvindex,'mean_Severerisk':mean_Severerisk}
+    print(len(daily_parameters))
 
 
 
@@ -194,12 +197,11 @@ def index():
                     post = hourly_data[l]
                     collection.insert_one(post)
     
+    #collection.insert_one(daily_parameters_dict)
     
-
-
-                    #print('inserted',post)
+    print('inserted',daily_parameters_dict)
                     
-    return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date )
+    return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date , daily_parameters=daily_parameters)
 
 
 
@@ -211,6 +213,10 @@ def view_data():
         {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
         {"$match": {"count": {"$gt": 1}}}
     ] 
+
+
+
+    
     duplicate_docs = list(collection.aggregate(pipeline))
 
     for doc in duplicate_docs:
