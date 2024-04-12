@@ -6,10 +6,12 @@ from datetime import datetime
 import datetime
 import pymongo
 import numpy as np
+from bson.objectid import ObjectId  
 
 cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
+collection_min_max = db['min_max']
 
 app = Flask(__name__)
 
@@ -38,7 +40,8 @@ def index():
     Uvindex_h=[]
     Severerisk_h=[]
     
-
+    #####------------------------------------------->
+    
     for hour in data['days'][0]['hours']:
             hourly_data.append({
                 'datetime' : hour['datetime'],
@@ -126,7 +129,7 @@ def index():
     mean_Uvindex=findmean('Uvindex', Uvindex_h)
     mean_Severerisk=findmean('Severerisk', Severerisk_h)
 
-   
+   #####------------------------------------------->
 
     datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
     timezone_offset = datetime.timedelta(hours=1)  
@@ -192,31 +195,61 @@ def index():
     #xm = {'datetime': '11:00:00', 'datetimeEpoch': 1713002401, 'temp': 10.1, 'feelslike': 10.1, 'humidity': 71.43, 'dew': 5.1, 'precip': 0.0, 'precipprob': 12.9, 'snow': 0.0, 'snowdepth': 0.0, 'preciptype': None, 'windgust': 51.1, 'windspeed': 24.1, 'winddir': 243.9, 'pressure': 1018.7, 'visibility': 24.0, 'cloudcover': 69.1, 'solarradiation': 307.7, 'solarenergy': 1.1, 'uvindex': 3.0, 'severerisk': 10.0, 'conditions': 'Partially cloudy', 'icon': 'partly-cloudy-day', 'stations': None, 'source': 'fcst'}
     #collection.insert_one(xm)
 
-
+    
     for l in range(24):
                     post = hourly_data[l]
                     collection.insert_one(post)
     
-    #collection.insert_one(daily_parameters_dict)
-    
     print('inserted',daily_parameters_dict)
+    filter_date = daily_parameters_dict['date']
+    filter = {'date': filter_date }
+
+    doc = collection_min_max.find_one({'date': filter_date })
+    print(filter_date, type(filter_date))
+    
+    if doc:
+        collection_min_max.replace_one(filter,  daily_parameters_dict)
+    else:
+        collection_min_max.insert_one(daily_parameters_dict)
+
                     
     return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date , daily_parameters=daily_parameters)
 
+@app.route('/processed-data-minmax')
+def view_data3():
+    parameter_dicts = []
+    pipeline = [
+        {"$group": {"_id": "$_id", "count": {"$sum": 1}}},
+        {"$match": {"count": {"$gt": 1}}}
+    ] 
+    duplicate_dates = list(collection.aggregate(pipeline))
+
+    for date_doc in duplicate_dates:
+        count = date_doc["count"]
+        date_value = date_doc["_id"]  # Date value
+        date_id = str(date_doc["_id"])  # ObjectId as string
+        print('Count:', count, 'Date:', date_value, 'ObjectId:', date_id)
 
 
+        
+    daily_parameters_list = collection_min_max.find({"date": {"$exists": True}})
+    
+    
+    if daily_parameters_list:
+        for daily_parameters_dict in daily_parameters_list:
+            parameter_dicts.append(daily_parameters_dict)
+            print('sfafds',daily_parameters_dict["_id"])
+
+        print('processed out', parameter_dicts)
+        return render_template('processed-data-minmax.html', parameter_dicts=parameter_dicts)
 
 
 @app.route('/view-data')
-def view_data():
+def view_data2():
     pipeline = [
         {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
         {"$match": {"count": {"$gt": 1}}}
     ] 
-
-
-
-    
     duplicate_docs = list(collection.aggregate(pipeline))
 
     for doc in duplicate_docs:
@@ -230,7 +263,7 @@ def view_data():
                 print(count_index)
 
     all_data = collection.find()     
-    return render_template('view-data.html', all_data=all_data,duplicate_docs= duplicate_docs )
+    return render_template('view-data.html', all_data=all_data )
 
 
 @app.route('/processed-data')
@@ -279,7 +312,7 @@ def view_data1():
         elif preciptype is None:
             x['preciptype'] = 'None'
         
-    return render_template('proccessed-data.html', all_data=processed_data)
+    return render_template('processed-data.html', all_data=processed_data)
 
 
 if __name__ == '__main__':
