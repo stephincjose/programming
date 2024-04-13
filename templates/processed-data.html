@@ -26,8 +26,8 @@
 
       table {
         border: 1px solid black;
-        border-collapse: collapse;
-        width: 100%;
+
+        width: 200%;
         border-radius: 8px;
         overflow: hidden;
       }
@@ -37,6 +37,7 @@
         border: 1px solid black;
         padding: 8px;
         text-align: center;
+  
       }
 
       th {
@@ -66,12 +67,13 @@
       .btn-primary {
         margin: 0.5rem;
       }
-      .button1{
-            align-items: center;
 
-            position: absolute;
-            margin-left: 81%;
-        }
+      .button1 {
+        align-items: center;
+        position: absolute;
+        margin-left: 81%;
+      }
+
 
     </style>
   </head>
@@ -79,11 +81,9 @@
     <div class="div0">
       <div class="button1">
         <a class="btn btn-primary" href="/" role="button">Real Time Data</a>
-    </div>
+      </div>
       <div class="Head">
-        <div>
-          Transformed datas from MongoDB
-        </div>
+        <div>Transformed datas from MongoDB</div>
         <div></div>
       </div>
 
@@ -92,7 +92,7 @@
           <button class="btn btn-primary" onclick="showHourly()">Hourly</button>
           <button class="btn btn-primary" onclick="showDaily()">Daily</button>
 
-          <div class="hourly"  >
+          <div class="hourly">
             <table class="table table-striped">
               <tr>
                 <th>Epoch_Time</th>
@@ -126,12 +126,6 @@
                 <th>Partially cloudy</th>
                 <th>Clear</th>
                 <th>Rain</th>
-
- 
-
-
-
-
               </tr>
               {% for hour in all_data %}
               <tr>
@@ -166,76 +160,65 @@
                 <td>{{ hour.Partially_cloudy }}</td>
                 <td>{{ hour.Clear }}</td>
                 <td>{{ hour.Rain }}</td>
-
               </tr>
               {% endfor %}
             </table>
           </div>
 
-          <div class="daily" style="display: none;">
-            <div class="div12">
-              <div class="div2">
-                <table class="table table-striped">
-                  <tr>
-                    <th >Date</th>
-                    <th>Temperature_max</th>
-                    <th>Temperature_min</th>
-                    <th>Temperature_mean</th>
-                    <th>Feelslike_max</th>
-                    <th>Feelslike_min</th>
-                    <th>Feelslike_mean</th>
-                    <th>mean_Humidity</th>
-                    <th>mean_Dew_Dew</th>
-                    <th>mean_Precip</th>
-                    <th>mean_Snow</th>
-                    <th>mean_Snowdepth</th>
-                    <th>mean_Windgust</th>
-                    <th>mean_Windspeed</th>
-                    <th>mean_Winddir</th>
-                    <th>mean_Pressure</th>
-                    <th>mean_Visibility</th>
-                    <th>mean_Cloudcover</th>
-                    <th>mean_Solarradiation</th>
-                    <th>mean_Solarenergy</th>
-                    <th>mean_Uvindex</th>
-                    <th>mean_Severerisk</th>
-                    
-                  </tr>
-                  {% for daily_parameters_dict in parameter_dicts %}
-                  <tr>
-                    <td>{{ daily_parameters_dict.date }}</td>
-                    <td>{{ daily_parameters_dict.Temperature_max }}</td>
-                    <td>{{ daily_parameters_dict.Temperature_min }}</td>
-                    <td>{{ daily_parameters_dict.Temperature_mean }}</td>
-                    <td>{{ daily_parameters_dict.Feelslike_max }}</td>
-                    <td>{{ daily_parameters_dict.Feelslike_min }}</td>
-                    <td>{{ daily_parameters_dict.Feelslike_mean }}</td>
-                    <td>{{ daily_parameters_dict.mean_Humidity }}</td>
-                    <td>{{ daily_parameters_dict.mean_Dew_Dew }}</td>
-                    <td>{{ daily_parameters_dict.mean_Precip }}</td>
-                    <td>{{ daily_parameters_dict.mean_Snow }}</td>
-                    <td>{{ daily_parameters_dict.mean_Snowdepth }}</td>
-                    <td>{{ daily_parameters_dict.mean_Windgust }}</td>
-                    <td>{{ daily_parameters_dict.mean_Windspeed }}</td>
-                    <td>{{ daily_parameters_dict.mean_Winddir }}</td>
-                    <td>{{ daily_parameters_dict.mean_Pressure }}</td>
-                    <td>{{ daily_parameters_dict.mean_Visibility }}</td>
-                    <td>{{ daily_parameters_dict.mean_Cloudcover }}</td>
-                    <td>{{ daily_parameters_dict.mean_Solarradiation }}</td>
-                    <td>{{ daily_parameters_dict.mean_Solarenergy }}</td>
-                    <td>{{ daily_parameters_dict.mean_Uvindex }}</td>
-                    <td>{{ daily_parameters_dict.mean_Severerisk }}</td>
-                  </tr>
-                  {% endfor %}
-                </table>
-              </div>
-            </div>
-
+          <div class="daily" style="display: none">
+            <table class="table table-striped"     >
+              <tr>
+                <th >Date</th>
+                <th >Temperature_max</th>
+                <th>Temperature_min</th>
+                <th>Temperature_mean</th>
+                <th>Feelslike_max</th>
+                <th>Feelslike_min</th>
+                <th>Feelslike_mean</th>
+                <th>mean_Humidity</th>
+                <th>mean_Dew_Dew</th>
+                <th>mean_Precip</th>
+                <th>mean_Snow</th>
+                <th>mean_Snowdepth</th>
+                <th>mean_Windgust</th>
+                <th>mean_Windspeed</th>
+                <th>mean_Winddir</th>
+                <th>mean_Pressure</th>
+                <th>mean_Visibility</th>
+                <th>mean_Cloudcover</th>
+                <th>mean_Solarradiation</th>
+                <th>mean_Solarenergy</th>
+                <th>mean_Uvindex</th>
+                <th>mean_Severerisk</th>
+              </tr>
+              {% for daily_parameters_dict in parameter_dicts %}
+              <tr>
+                <td >{{ daily_parameters_dict.date }}</td>
+                <td>{{ daily_parameters_dict.Temperature_max }}</td>
+                <td>{{ daily_parameters_dict.Temperature_min }}</td>
+                <td>{{ daily_parameters_dict.Temperature_mean }}</td>
+                <td>{{ daily_parameters_dict.Feelslike_max }}</td>
+                <td>{{ daily_parameters_dict.Feelslike_min }}</td>
+                <td>{{ daily_parameters_dict.Feelslike_mean }}</td>
+                <td>{{ daily_parameters_dict.mean_Humidity }}</td>
+                <td>{{ daily_parameters_dict.mean_Dew_Dew }}</td>
+                <td>{{ daily_parameters_dict.mean_Precip }}</td>
+                <td>{{ daily_parameters_dict.mean_Snow }}</td>
+                <td>{{ daily_parameters_dict.mean_Snowdepth }}</td>
+                <td>{{ daily_parameters_dict.mean_Windgust }}</td>
+                <td>{{ daily_parameters_dict.mean_Windspeed }}</td>
+                <td>{{ daily_parameters_dict.mean_Winddir }}</td>
+                <td>{{ daily_parameters_dict.mean_Pressure }}</td>
+                <td>{{ daily_parameters_dict.mean_Visibility }}</td>
+                <td>{{ daily_parameters_dict.mean_Cloudcover }}</td>
+                <td>{{ daily_parameters_dict.mean_Solarradiation }}</td>
+                <td>{{ daily_parameters_dict.mean_Solarenergy }}</td>
+                <td>{{ daily_parameters_dict.mean_Uvindex }}</td>
+                <td>{{ daily_parameters_dict.mean_Severerisk }}</td>
+              </tr>
+              {% endfor %}
+            </table>
           </div>
-    
-
-
-
         </div>
       </div>
       <div>
@@ -253,18 +236,14 @@
 
     <script>
       function showHourly() {
-        document.querySelector('.hourly').style.display = 'block';
-        document.querySelector('.daily').style.display = 'none';
+        document.querySelector(".hourly").style.display = "block";
+        document.querySelector(".daily").style.display = "none";
       }
-  
+
       function showDaily() {
-        document.querySelector('.hourly').style.display = 'none';
-        document.querySelector('.daily').style.display = 'block';
+        document.querySelector(".hourly").style.display = "none";
+        document.querySelector(".daily").style.display = "block";
       }
     </script>
-
-
-
-
   </body>
 </html>
