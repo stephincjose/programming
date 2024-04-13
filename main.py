@@ -329,8 +329,48 @@ def view_data1():
             'conditions': x.get('conditions'),
             'Rain':'none',
             'None' :'none',
-            'Snow':'none'
+            'Snow':'none',
+
+            'Overcast' : 'none',
+            'Partially_cloudy' :'none',
+            'Clear' :'none',
+            'Rain' :'none'
+
         })
+    
+    for x in processed_data:
+        conditions = x.get('conditions')
+        if conditions:
+            conditions_list = conditions.split(',')
+            if 'Rain' in conditions_list:
+                x['Rain'] = 'Yes'
+            else:
+                x['Rain'] = 'No'
+
+            if 'Overcast' in conditions_list:
+                x['Overcast'] = 'Yes'
+            else:
+                x['Overcast'] = 'No' 
+
+            if 'Partially cloudy' in conditions_list:
+                x['Partially_cloudy'] = 'Yes'
+            else:
+                x['Partially_cloudy'] = 'No'
+
+
+            if 'Clear' in conditions_list:
+                x['Clear'] = 'Yes'
+            else:
+                x['Clear'] = 'No'  
+
+                      
+
+
+              
+
+         
+         
+
 
 
     for x in processed_data:

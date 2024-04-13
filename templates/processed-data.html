@@ -105,7 +105,7 @@
                 <th>Precipprob</th>
                 <th>Snow</th>
                 <th>Snowdepth</th>
-                <th>Preciptype</th>
+                <!-- <th>Preciptype</th> -->
                 <th>Windgust</th>
                 <th>Windspeed</th>
                 <th>Winddir</th>
@@ -116,10 +116,22 @@
                 <th>Solarenergy</th>
                 <th>UVindex</th>
                 <th>Severerisk</th>
-                <th>Conditions</th>
+                <!-- <th>Conditions</th> -->
+
                 <th>Rain</th>
                 <th>None</th>
                 <th>Snow</th>
+
+                <th>Overcast</th>
+                <th>Partially cloudy</th>
+                <th>Clear</th>
+                <th>Rain</th>
+
+ 
+
+
+
+
               </tr>
               {% for hour in all_data %}
               <tr>
@@ -133,7 +145,7 @@
                 <td>{{ hour.precipprob }}</td>
                 <td>{{ hour.snow }}</td>
                 <td>{{ hour.snowdepth }}</td>
-                <td>{{ hour.preciptype }}</td>
+                <!-- <td>{{ hour.preciptype }}</td> -->
                 <td>{{ hour.windgust }}</td>
                 <td>{{ hour.windspeed }}</td>
                 <td>{{ hour.winddir }}</td>
@@ -144,10 +156,17 @@
                 <td>{{ hour.solarenergy }}</td>
                 <td>{{ hour.uvindex }}</td>
                 <td>{{ hour.severerisk }}</td>
-                <td>{{ hour.conditions }}</td>
+                <!-- <td>{{ hour.conditions }}</td> -->
+
                 <td>{{ hour.Rain }}</td>
                 <td>{{ hour.None }}</td>
                 <td>{{ hour.Snow }}</td>
+
+                <td>{{ hour.Overcast }}</td>
+                <td>{{ hour.Partially_cloudy }}</td>
+                <td>{{ hour.Clear }}</td>
+                <td>{{ hour.Rain }}</td>
+
               </tr>
               {% endfor %}
             </table>
@@ -158,7 +177,7 @@
               <div class="div2">
                 <table class="table table-striped">
                   <tr>
-                    <th>Date</th>
+                    <th >Date</th>
                     <th>Temperature_max</th>
                     <th>Temperature_min</th>
                     <th>Temperature_mean</th>
