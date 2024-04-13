@@ -302,7 +302,8 @@ def view_data1():
     processed_data = []
 
     for x in all_data:
-        cloudcover = x.get('cloudcover')
+  
+            
         processed_data.append({
             'datetime': x.get('datetime'),
             'datetimeEpoch': x.get('datetimeEpoch'),
@@ -326,21 +327,37 @@ def view_data1():
             'uvindex': x.get('uvindex'),
             'severerisk': x.get('severerisk'),
             'conditions': x.get('conditions'),
+            'Rain':'none',
+            'None' :'none',
+            'Snow':'none'
         })
 
 
     for x in processed_data:
         if x.get('datetimeEpoch'):
             epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))
-            x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d %H:%M:%S')
+            x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d')
 
  
     for x in processed_data:
         preciptype = x.get('preciptype')
         if preciptype == ['rain']:
-            x['preciptype'] = 'rain'
+            x['Rain'] = 'Yes'
+            x['None'] = 'No'
+            x['Snow'] = 'No'
+
+
         elif preciptype is None:
-            x['preciptype'] = 'None'
+            x['None'] = 'Yes'
+            x['Rain'] = 'No'
+            x['Snow'] = 'No'
+        
+        elif preciptype == ['snow']:
+            x['None'] = 'No'
+            x['Rain'] = 'No'
+            x['Snow'] = 'Yes'
+
+    
         
     return render_template('processed-data.html', all_data=processed_data,  parameter_dicts=parameter_dicts)
 
