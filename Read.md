@@ -7,15 +7,22 @@ Objectives
 
 The project focuses on collecting Dublin's weather data using an API, analyzing it with Python libraries, visualizing insights in a dashboard, integrating with Git for version control, deploying on Google Cloud for accessibility, and maintaining documentation for clarity and collaboration.
 
-    Data collection
+    Data collection and storing in the DB
         The main task is to gather data from an outside source to understand Dublin's weather better. With the help of an API from www.visualcrossing.com to get detailed information like temperature, humidity, and more for each hour of the day. We collect thid data every day and store it in the database.
 
-        After setting up our Flask application and importing necessary libraries including Flask and requests, it establish a connection with the Visual Crossing API to retrieve the weather data. After receiving the JSON response from the API, I've observed its structure and identify that it contains both current weather information and forecasts for the next 14 days. However, I've focused on the current date, which gathering data for each hour of the day.
+        After setting up our Flask application and importing necessary libraries including Flask,json and requests, it establish a connection with the Visual Crossing API to retrieve the weather data. After receiving the JSON response from the API, I've observed its structure and identify that it contains both current weather information and forecasts for the next 14 days. However, I've focused on the current date, which gathering data for each hour of the day. 
 
-        For each hourly interval, the data collection program extract various weather parameters including datetime, datetimeEpoch, temp, feelslike, humidity, dew, precip, precipprob, snow, snowdepth, preciptype, windgust, winddir, pressure, visibility, cloudcover, solarradiation, solarenergy, uvindex, severerisk, conditions, icon, stations and source . This data is collected and stored in MongoDB database.This stored data becomes accessible for further use. In the analysis section, we'll dive into this data to extract insights and perform additional processing.
+        For each hourly interval, the data collection program extract various weather parameters including datetime, datetimeEpoch, temp, feelslike, humidity, dew, precip, precipprob, snow, snowdepth, preciptype, windgust, winddir, pressure, visibility, cloudcover, solarradiation, solarenergy, uvindex, severerisk, conditions, icon, stations and source . This data is collected and stored in to the MongoDB collection named "test".This stored data becomes accessible for further use. I've used library called pymongo to work with our MongoDB databas
+
+        After collecting and storing the weather data in the database, we proceed with further processing. One crucial task involves determining the daily maximum and minimum temperatures, as well as the "feels like" temperature, for computing the maximum, minimum, and mean values we have used the numpy library. I've done this by creating separate arrays for each parameter and appending the respective hourly values to them. By analyzing these arrays, we can easily identify the highest and lowest temperatures recorded throughout the day.
+
+        Additionally, I've calculated the mean (average) value for each numerical parameter by appending the hourly data into their respective arrays and calculating their averages. These mean, maximum, and minimum values are then stored in a separate collection within our Mongodb, named "min_max."
+
+
 
     Analysis
         Utilizin Python libraries such as Flask, Request, JSON, PyMongo, Numpy, and datetime, we process and analyze the weather data collected from the API, stored it in the DB and transformed data to visuallise it. The analysis is conducted within the VS Code environment, ensuring efficiency and accuracy.
+
 
     Visualization
         To make it easier to understand the weather data, we've created visual displays in our dashbord. These show hourly details, past days' weather, and summarises of each day's weather, like the highest and lowest temperature.

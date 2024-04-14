@@ -40,7 +40,6 @@ def index():
     Uvindex_h=[]
     Severerisk_h=[]
     
-    #####------------------------------------------->
     
     try:
         # with open('json_monthly_03.txt', 'r') as file:
@@ -162,14 +161,7 @@ def index():
                             print('update',post)
                         else:
                             collection.insert_one(post)
-                            print('inserted',post)
-                            
-        
-       
-
-                            
-                                            
-                        
+                            print('inserted',post)        
                         
    
         filter_date = daily_parameters_dict['date']
@@ -217,11 +209,6 @@ def view_data1():
     #         collection.delete_one(x)
     #         print('deleted')
             
-             
-        
-        
-    
-    
     processed_data = []
 
     for x in all_data:
