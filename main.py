@@ -46,8 +46,7 @@ def index():
         #          data = json.load(file)
                           
         for hour in data['days'][0]['hours']:
-                # hour['severerisk']=10
-            
+    
                 hourly_data.append({
                  
                     'datetime' : hour['datetime'],
@@ -189,7 +188,6 @@ def view_data2():
 @app.route('/processed-data')
 def view_data1():
     
-    #from viewdata3():
     
     parameter_dicts = []
         
@@ -199,15 +197,9 @@ def view_data1():
         for daily_parameters_dict in daily_parameters_list:
             parameter_dicts.append(daily_parameters_dict)
 
-    ## end viewdata3()
 
     all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
-    
-    # for x in all_data:
-    #     print(x.get('datetimeEpoch'))
-    #     if x.get('datetimeEpoch') >= 1713088800:
-    #         collection.delete_one(x)
-    #         print('deleted')
+
             
     processed_data = []
 
