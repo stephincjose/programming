@@ -138,7 +138,7 @@ def index():
     #####------------------------------------------->
 
         datetimeEpoch= data['days'][0]['hours'][1]['datetimeEpoch']
-        timezone_offset = datetime.timedelta(hours=0)  
+        timezone_offset = datetime.timedelta(hours=1)  
         real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
         date = real_time.strftime('%Y-%m-%d')
         print("Real Date in GMT+1:", date)

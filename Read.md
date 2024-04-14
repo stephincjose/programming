@@ -19,9 +19,14 @@ The project focuses on collecting Dublin's weather data using an API, analyzing 
         Additionally, I've calculated the mean (average) value for each numerical parameter by appending the hourly data into their respective arrays and calculating their averages. These mean, maximum, and minimum values are then stored in a separate collection within our Mongodb, named "min_max."
 
 
+    Analysis and Transforming the data
+        Using the Python libraries such as Flask, Request, JSON, PyMongo, Numpy, and datetime, we process and analyze the weather data collected from the API, stored it in the DB and transformed data to visuallise it. The analysis is conducted within the VS Code environment, ensuring efficiency and accuracy.
 
-    Analysis
-        Utilizin Python libraries such as Flask, Request, JSON, PyMongo, Numpy, and datetime, we process and analyze the weather data collected from the API, stored it in the DB and transformed data to visuallise it. The analysis is conducted within the VS Code environment, ensuring efficiency and accuracy.
+        The hourly parameters timestamp is provided in epoch time. Epoch time represents the number of seconds that have elapsed since January 1, 1970. However, to align with Dublin's standard time (GMT+1 after April 1st), we need to convert this epoch time accordingly.
+
+        In the "Preciptype" column, we are having categorical values indicating precipitation type, such as snow or rain. To simplify analysis, we transform this column into three separate columns: "None," "Snow," and "Rain." Each column will have a value of "Yes" if the corresponding precipitation type occurs, otherwise "No.
+
+        Similarly, the "Condition" column contains values like Rain, Overcast, Partially cloudy, and Clear. To make it more clear, we create four separate columns: "Rain," "Overcast," "Partially cloudy," and "Clear." Each column will be marked with "Yes" if the condition is present, otherwise "No."
 
 
     Visualization
