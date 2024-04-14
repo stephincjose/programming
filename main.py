@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def index():
     req = requests.get('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/dublin?unitGroup=metric&include=days%2Chours%2Calerts%2Ccurrent&key=7NN5BGMSZ9MUZASGBLWYWK7X7&contentType=json')
-    print(req.content)
+    # print(req.content)
     data = json.loads(req.content)
 
     hourly_data = []
@@ -42,14 +42,11 @@ def index():
     
     #####------------------------------------------->
     
-
-
-    
     try:
         # with open('json_monthly_02.txt', 'r') as file:
         #         data = json.load(file)
                 
-        for hour in data['days'][0]['hours']:
+        for hour in data['days'][14]['hours']:
                 hourly_data.append({
                     'datetime' : hour['datetime'],
                     'datetimeEpoch': hour['datetimeEpoch'],
@@ -138,7 +135,7 @@ def index():
 
     #####------------------------------------------->
 
-        datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
+        datetimeEpoch= data['days'][14]['hours'][0]['datetimeEpoch']
         timezone_offset = datetime.timedelta(hours=1)  
         real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
         date = real_time.strftime('%Y-%m-%d')
@@ -147,41 +144,30 @@ def index():
         daily_parameters=[date, Temperature_max, Temperature_min, Temperature_mean,Feelslike_max, Feelslike_min, Feelslike_mean , mean_Humidity,mean_Dew_Dew,mean_Precip,mean_Snow,mean_Snowdepth,mean_Windgust,mean_Windspeed,mean_Winddir,mean_Pressure,mean_Visibility,mean_Cloudcover,mean_Solarradiation,mean_Solarenergy,mean_Uvindex,mean_Severerisk]
         # print(len(daily_parameters))
         daily_parameters_dict={'date':date, 'Temperature_max':Temperature_max, 'Temperature_min':Temperature_min, 'Temperature_mean':Temperature_mean,'Feelslike_max':Feelslike_max, 'Feelslike_min':Feelslike_min, 'Feelslike_mean':Feelslike_mean ,'mean_Humidity': mean_Humidity,'mean_Dew_Dew':mean_Dew_Dew,'mean_Precip':mean_Precip,'mean_Snow':mean_Snow,'mean_Snowdepth':mean_Snowdepth,'mean_Windgust':mean_Windgust,'mean_Windspeed':mean_Windspeed,'mean_Winddir':mean_Winddir,'mean_Pressure':mean_Pressure,'mean_Visibility':mean_Visibility,'mean_Cloudcover':mean_Cloudcover,'mean_Solarradiation':mean_Solarradiation,'mean_Solarenergy':mean_Solarenergy,'mean_Uvindex':mean_Uvindex,'mean_Severerisk':mean_Severerisk}
-    
+   
+        for eachhour in range(24):
+                        post = hourly_data[eachhour]
+                        
+                        filter_datetimeEpoch = post['datetimeEpoch']
+                        filter1 = {'datetimeEpoch': filter_datetimeEpoch }
 
-
-
-            
-
-        # try:
-        #     with open('json_monthly_02.txt', 'r') as file:
-        #         data = json.load(file)
-
-        #     x= len(data['days'])    
-        #     #print(x)
-
-        #     for days in range(x-1):
-        #         hourly_data = []
-
-        #         for hour in data['days'][days]['hours']:
-        #             hourly_data.append({
-        #                 'datetime' : hour['datetime'],
-    
-        
-        for l in range(24):
-                        post = hourly_data[l]
-                        collection.insert_one(post)
-        
-        print('inserted',daily_parameters_dict)
+                        doc1= collection.find_one({'datetimeEpoch':filter_datetimeEpoch})
+                        
+                        if doc1:
+                            collection.replace_one(filter1,  post)
+                            print('update',post)
+                        else:
+                            collection.insert_one(post)
+                            print('inserted',post)
+                                            
+                        
+                        
+   
         filter_date = daily_parameters_dict['date']
         filter = {'date': filter_date }
 
-
-    # all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
-#sort("datetimeEpoch", pymongo.DESCENDING)
-
         doc = collection_min_max.find_one({'date': filter_date })
-        print(filter_date, type(filter_date))
+        # print(filter_date, type(filter_date))
         
         if doc:
             collection_min_max.replace_one(filter,  daily_parameters_dict)
@@ -193,54 +179,39 @@ def index():
                     
     return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date , daily_parameters=daily_parameters)
 
-# @app.route('/processed-data-minmax')
-# def view_data3():
-#     parameter_dicts = []
-#     pipeline = [
-#         {"$group": {"_id": "$_id", "count": {"$sum": 1}}},
-#         {"$match": {"count": {"$gt": 1}}}
-#     ] 
-#     duplicate_dates = list(collection.aggregate(pipeline))
-
-#     for date_doc in duplicate_dates:
-#         count = date_doc["count"]
-#         date_value = date_doc["_id"]  # Date value
-#         date_id = str(date_doc["_id"])  # ObjectId as string
-#         print('Count:', count, 'Date:', date_value, 'ObjectId:', date_id)
-     
-#     daily_parameters_list = collection_min_max.find({"date": {"$exists": True}})
+@app.route('/processed-data-minmax')
+def view_data3():
+    parameter_dicts = []
+    daily_parameters_list = collection_min_max.find({"date": {"$exists": True}})
     
-    
-#     if daily_parameters_list:
-#         for daily_parameters_dict in daily_parameters_list:
-#             parameter_dicts.append(daily_parameters_dict)
-#             print('sfafds',daily_parameters_dict["_id"])
+    if daily_parameters_list:
+        for daily_parameters_dict in daily_parameters_list:
+            parameter_dicts.append(daily_parameters_dict)
 
-#         print('processed out', parameter_dicts)
-#         return render_template('processed-data-minmax.html',  parameter_dicts=parameter_dicts)
+        print('processed out', parameter_dicts)
+        return render_template('processed-data-minmax.html',  parameter_dicts=parameter_dicts)
 
 
 @app.route('/view-data')
 def view_data2():
-    pipeline = [
-        {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
-        {"$match": {"count": {"$gt": 1}}}
-    ] 
-    duplicate_docs = list(collection.aggregate(pipeline))
+    # pipeline = [
+    #     {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
+    #     {"$match": {"count": {"$gt": 1}}}
+    # ] 
+    # duplicate_docs = list(collection.aggregate(pipeline))
 
-    for doc in duplicate_docs:
-        count= doc["count"]
-        count_index = count
-        if count > 1:
-            while count_index > 1:
-                #print('true')
-                collection.delete_one({"datetimeEpoch": doc["_id"]})
-                count_index =count_index-1
-                print(count_index)
+    # for doc in duplicate_docs:
+    #     count= doc["count"]
+    #     count_index = count
+    #     if count > 1:
+    #         while count_index > 1:
+    #             #print('true')
+    #             collection.delete_one({"datetimeEpoch": doc["_id"]})
+    #             count_index =count_index-1
+    #             print(count_index)
 
     all_data = collection.find()     
     return render_template('view-data.html', all_data=all_data )
-
 
 @app.route('/processed-data')
 def view_data1():
@@ -250,23 +221,17 @@ def view_data1():
     parameter_dicts = []
         
     daily_parameters_list = collection_min_max.find().sort("date", pymongo.DESCENDING)
-    
-    
+     
     if daily_parameters_list:
         for daily_parameters_dict in daily_parameters_list:
             parameter_dicts.append(daily_parameters_dict)
-        #     print('objectid',daily_parameters_dict["_id"])
-        # print('processed out', parameter_dicts)
 
     ## end viewdata3()
-
-
 
     all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
     processed_data = []
 
     for x in all_data:
-  
             
         processed_data.append({
             'datetime': x.get('datetime'),
@@ -350,12 +315,9 @@ def view_data1():
         elif preciptype == ['snow']:
             x['None'] = 'No'
             x['Rain'] = 'No'
-            x['Snow'] = 'Yes'
-
-    
+            x['Snow'] = 'Yes' 
         
     return render_template('processed-data.html', all_data=processed_data,  parameter_dicts=parameter_dicts)
-
 
 if __name__ == '__main__':
     #port for local
