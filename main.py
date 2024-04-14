@@ -43,11 +43,16 @@ def index():
     #####------------------------------------------->
     
     try:
-        # with open('json_monthly_02.txt', 'r') as file:
-        #         data = json.load(file)
-                
-        for hour in data['days'][14]['hours']:
+        # with open('json_monthly_03.txt', 'r') as file:
+        #          data = json.load(file)
+                 
+        
+             
+        for hour in data['days'][0]['hours']:
+                # hour['severerisk']=10
+            
                 hourly_data.append({
+                 
                     'datetime' : hour['datetime'],
                     'datetimeEpoch': hour['datetimeEpoch'],
                     'temp': hour['temp'],
@@ -135,8 +140,8 @@ def index():
 
     #####------------------------------------------->
 
-        datetimeEpoch= data['days'][14]['hours'][0]['datetimeEpoch']
-        timezone_offset = datetime.timedelta(hours=1)  
+        datetimeEpoch= data['days'][0]['hours'][1]['datetimeEpoch']
+        timezone_offset = datetime.timedelta(hours=0)  
         real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
         date = real_time.strftime('%Y-%m-%d')
         print("Real Date in GMT+1:", date)
@@ -147,6 +152,7 @@ def index():
    
         for eachhour in range(24):
                         post = hourly_data[eachhour]
+                        
                         
                         filter_datetimeEpoch = post['datetimeEpoch']
                         filter1 = {'datetimeEpoch': filter_datetimeEpoch }
@@ -159,6 +165,11 @@ def index():
                         else:
                             collection.insert_one(post)
                             print('inserted',post)
+                            
+        
+       
+
+                            
                                             
                         
                         
@@ -179,37 +190,9 @@ def index():
                     
     return render_template('index.html', hourly_data= hourly_data, post=post ,data=data , date=date , daily_parameters=daily_parameters)
 
-@app.route('/processed-data-minmax')
-def view_data3():
-    parameter_dicts = []
-    daily_parameters_list = collection_min_max.find({"date": {"$exists": True}})
-    
-    if daily_parameters_list:
-        for daily_parameters_dict in daily_parameters_list:
-            parameter_dicts.append(daily_parameters_dict)
-
-        print('processed out', parameter_dicts)
-        return render_template('processed-data-minmax.html',  parameter_dicts=parameter_dicts)
-
 
 @app.route('/view-data')
 def view_data2():
-    # pipeline = [
-    #     {"$group": {"_id": "$datetimeEpoch", "count": {"$sum": 1}}},
-    #     {"$match": {"count": {"$gt": 1}}}
-    # ] 
-    # duplicate_docs = list(collection.aggregate(pipeline))
-
-    # for doc in duplicate_docs:
-    #     count= doc["count"]
-    #     count_index = count
-    #     if count > 1:
-    #         while count_index > 1:
-    #             #print('true')
-    #             collection.delete_one({"datetimeEpoch": doc["_id"]})
-    #             count_index =count_index-1
-    #             print(count_index)
-
     all_data = collection.find()     
     return render_template('view-data.html', all_data=all_data )
 
@@ -229,6 +212,18 @@ def view_data1():
     ## end viewdata3()
 
     all_data = collection.find().sort("datetimeEpoch", pymongo.DESCENDING)
+    
+    # for x in all_data:
+    #     print(x.get('datetimeEpoch'))
+    #     if x.get('datetimeEpoch') >= 1713088800:
+    #         collection.delete_one(x)
+    #         print('deleted')
+            
+             
+        
+        
+    
+    
     processed_data = []
 
     for x in all_data:
@@ -291,6 +286,8 @@ def view_data1():
                 x['Clear'] = 'Yes'
             else:
                 x['Clear'] = 'No'  
+            
+  
 
 
     for x in processed_data:
