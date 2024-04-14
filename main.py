@@ -45,9 +45,7 @@ def index():
     try:
         # with open('json_monthly_03.txt', 'r') as file:
         #          data = json.load(file)
-                 
-        
-             
+                          
         for hour in data['days'][0]['hours']:
                 # hour['severerisk']=10
             
