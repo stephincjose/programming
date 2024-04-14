@@ -6,8 +6,7 @@ from datetime import datetime
 import datetime
 import pymongo
 import numpy as np
-from bson.objectid import ObjectId  
-
+ 
 cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
 collection = db["test"]
