@@ -6,6 +6,7 @@ from datetime import datetime
 import datetime
 import pymongo
 import numpy as np
+import pytz
  
 cluster = MongoClient("mongodb+srv://stephinjosec:passsword1@cluster0.jh2zpzm.mongodb.net/")
 db = cluster["test"]
@@ -264,13 +265,15 @@ def view_data1():
                 x['Clear'] = 'No'  
             
   
-
+    target_timezone = pytz.timezone('Europe/London')
 
     for x in processed_data:
         if x.get('datetimeEpoch'):
-            epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))
-            x['datetimeEpoch'] = epoch_time.strftime('%Y-%m-%d')
-
+   
+            epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))  
+            epoch_time_gmt1 = epoch_time.astimezone(target_timezone) 
+            x['datetimeEpoch'] = epoch_time_gmt1.strftime('%Y-%m-%d')
+            
  
     for x in processed_data:
         preciptype = x.get('preciptype')
