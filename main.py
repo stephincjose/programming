@@ -136,7 +136,7 @@ def index():
 
     #####------------------------------------------->
 
-        datetimeEpoch= data['days'][0]['hours'][1]['datetimeEpoch']
+        datetimeEpoch= data['days'][0]['hours'][0]['datetimeEpoch']
         timezone_offset = datetime.timedelta(hours=1)  
         real_time = datetime.datetime.utcfromtimestamp(datetimeEpoch) + timezone_offset
         date = real_time.strftime('%Y-%m-%d')
@@ -148,8 +148,7 @@ def index():
    
         for eachhour in range(24):
                         post = hourly_data[eachhour]
-                        
-                        
+                                     
                         filter_datetimeEpoch = post['datetimeEpoch']
                         filter1 = {'datetimeEpoch': filter_datetimeEpoch }
 
@@ -228,6 +227,7 @@ def view_data1():
             'uvindex': x.get('uvindex'),
             'severerisk': x.get('severerisk'),
             'conditions': x.get('conditions'),
+            
             'Rain':'none',
             'None' :'none',
             'Snow':'none',
@@ -265,14 +265,6 @@ def view_data1():
                 x['Clear'] = 'No'  
             
   
-    target_timezone = pytz.timezone('Europe/London')
-
-    for x in processed_data:
-        if x.get('datetimeEpoch'):
-   
-            epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))  
-            epoch_time_gmt1 = epoch_time.astimezone(target_timezone) 
-            x['datetimeEpoch'] = epoch_time_gmt1.strftime('%Y-%m-%d')
             
  
     for x in processed_data:
@@ -292,6 +284,15 @@ def view_data1():
             x['None'] = 'No'
             x['Rain'] = 'No'
             x['Snow'] = 'Yes' 
+
+    target_timezone = pytz.timezone('Europe/London')
+
+    for x in processed_data:
+        if x.get('datetimeEpoch'):
+   
+            epoch_time = datetime.datetime.fromtimestamp(x.get('datetimeEpoch'))  
+            epoch_time_gmt1 = epoch_time.astimezone(target_timezone) 
+            x['datetimeEpoch'] = epoch_time_gmt1.strftime('%Y-%m-%d')
         
     return render_template('processed-data.html', all_data=processed_data,  parameter_dicts=parameter_dicts)
 
